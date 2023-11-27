@@ -126,10 +126,18 @@ def main():
     print(my_account2.account_holder_info())  
     print(my_account2.customer.get_name)
 
-    my_customer3 = Customer("Unit Test John", "john@test.com", "567-1234")
-    my_account3 = CheckingAccount(my_customer3, "UTJ", initial_balance=1000.0)
-    my_account3.deposit(500.0)
-    my_account3.withdraw(200.0)
+    customer_name = input("Enter the customer's name: ") # "Unit Test John"
+    customer_email = input("Enter the customer's email: ") # "john@test.com"
+    customer_phone_no = input("Enter the customer's phone number: ") # "567-1234"
+    account_holder_id = input("Enter the account holder id: ") # "UTJ"
+    account_initial_balance = float(input("Enter initial balance: ")) # 1000.0
+    account_deposit = float(input("Enter deposit amount: ")) # 500.0
+    account_withdraw = float(input("Enter withdraw amount: ")) # 200.0
+
+    my_customer3 = Customer(customer_name, customer_email, customer_phone_no)
+    my_account3 = CheckingAccount(my_customer3, account_holder_id, initial_balance=account_initial_balance)
+    my_account3.deposit(account_deposit)
+    my_account3.withdraw(account_withdraw)
     print(my_customer3.get_name)
     print(my_account3.check_balance())  
     print(my_account3.account_holder_info())  

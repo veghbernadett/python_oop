@@ -106,42 +106,69 @@ class CheckingAccount(BankAccount):
     def account_holder_info(self):
         return f"Account info for {self.account_holder}: {self.customer.__str__()}"
 
+class Bank:
+    def __init__(self):
+        self.customers = []
+
+    def add_customer(self, customer):
+        if not isinstance(customer, Customer):
+            raise ValueError("Customer must be an instance of the Customer class.")
+        self.customers.append(customer)
+
+    def create_account(self, customer, initial_balance=0.0):
+        if customer not in self.customers:
+            raise ValueError("Customer not found in the bank.")
+        account_holder = f"{customer.name[:3].upper()}"
+        account = CheckingAccount(customer, account_holder, initial_balance)
+        return account
+    
+    def print_customers(self):
+        print("Customers in the bank:")
+        for customer in self.customers:
+            print(customer.__str__())
+
 def main():
+    bank = Bank()
+
+    print("Add first customer")
     my_customer1 = Customer('Test Jane', 'testjane@test.com', '123-4567')
-    my_account1 = CheckingAccount(my_customer1,"TJ", initial_balance=100.0)
+    bank.add_customer(my_customer1)
+    my_account1 = bank.create_account(my_customer1, initial_balance=100.0)
     my_account1.deposit(10.6)
     my_account1.withdraw(1.08)
-    print(my_customer1.get_name)
     print(my_account1.check_balance())
     print(my_account1.account_holder_info())
-    print(my_account1.customer.get_name)
-    print(my_account1.balance)
+    print("############################################################")
 
-    my_customer2 = Customer('Test Tom', 'testtom@test.com', '987-6543')
-    my_account2 = CheckingAccount(my_customer2, "TT")
+    print("Add second customer")
+    my_customer2 = Customer('Happy Tom', 'happytom@test.com', '987-6543')
+    bank.add_customer(my_customer2)
+    my_account2 = bank.create_account(my_customer2)
     my_account2.deposit(15.0)
     my_account2.withdraw(3.6)
-    print(my_customer2.get_name)
-    print(my_account2.check_balance())  
-    print(my_account2.account_holder_info())  
-    print(my_account2.customer.get_name)
+    print(my_account2.check_balance())
+    print(my_account2.account_holder_info())
+    print("############################################################")
 
+    print("Add third customer")
     customer_name = input("Enter the customer's name: ") # "Unit Test John"
     customer_email = input("Enter the customer's email: ") # "john@test.com"
     customer_phone_no = input("Enter the customer's phone number: ") # "567-1234"
-    account_holder_id = input("Enter the account holder id: ") # "UTJ"
     account_initial_balance = float(input("Enter initial balance: ")) # 1000.0
     account_deposit = float(input("Enter deposit amount: ")) # 500.0
     account_withdraw = float(input("Enter withdraw amount: ")) # 200.0
-
+    
     my_customer3 = Customer(customer_name, customer_email, customer_phone_no)
-    my_account3 = CheckingAccount(my_customer3, account_holder_id, initial_balance=account_initial_balance)
+    bank.add_customer(my_customer3)
+    my_account3 = bank.create_account(my_customer3, initial_balance=account_initial_balance)
     my_account3.deposit(account_deposit)
     my_account3.withdraw(account_withdraw)
-    print(my_customer3.get_name)
     print(my_account3.check_balance())  
     print(my_account3.account_holder_info())  
-    print(my_account3.customer.get_name)
+    print("############################################################")
+
+    print("Bank Customer information")
+    bank.print_customers()
 
 if __name__ == "__main__":
     main()
